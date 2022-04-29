@@ -7,7 +7,7 @@ import 'package:quizapp/theme.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(App());
+  runApp(const App());
 }
 
 /// We are using a StatefulWidget such that we only create the [Future] once,
@@ -16,6 +16,8 @@ void main() {
 /// would re-initialize FlutterFire and make our application re-enter loading state,
 /// which is undesired.
 class App extends StatefulWidget {
+  const App({Key? key}) : super(key: key);
+
   // Create the initialization Future outside of `build`:
   @override
   _AppState createState() => _AppState();
@@ -34,7 +36,7 @@ class _AppState extends State<App> {
       builder: (context, snapshot) {
         // Check for errors
         if (snapshot.hasError) {
-          return Text('error');
+          return const Text('error', textDirection: TextDirection.ltr);
         }
 
         // Once complete, show your application
@@ -46,7 +48,7 @@ class _AppState extends State<App> {
         }
 
         // Otherwise, show something whilst waiting for initialization to complete
-        return Text('loading');
+        return const Text('loading', textDirection: TextDirection.ltr);
       },
     );
   }
