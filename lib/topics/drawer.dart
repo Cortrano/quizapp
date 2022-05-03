@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:quizapp/quiz/quiz.dart';
 import 'package:quizapp/services/models.dart';
 
 class TopicDrawer extends StatelessWidget {
@@ -11,8 +12,8 @@ class TopicDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView.separated(
-        itemBuilder: (BuildContext context, int i) {
-          Topic topic = topics[i];
+        itemBuilder: (BuildContext context, int index) {
+          Topic topic = topics[index];
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -31,7 +32,7 @@ class TopicDrawer extends StatelessWidget {
             ],
           );
         },
-        separatorBuilder: (BuildContext context, int i) => const Divider(),
+        separatorBuilder: (_, __) => const Divider(),
         itemCount: topics.length,
         shrinkWrap: true,
       ),
@@ -52,7 +53,11 @@ class QuizList extends StatelessWidget {
         elevation: 4,
         margin: const EdgeInsets.all(4),
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (BuildContext context) => QuizScreen(quizId: quiz.id),
+            ));
+          },
           child: Container(
             padding: const EdgeInsets.all(8),
             child: ListTile(
@@ -84,11 +89,10 @@ class QuizBadge extends StatelessWidget {
     Report report = Provider.of<Report>(context);
     List completed = report.topics[topic.id] ?? [];
 
-    if(completed.contains(quizId)) {
+    if (completed.contains(quizId)) {
       return const Icon(FontAwesomeIcons.checkDouble, color: Colors.green);
     } else {
       return const Icon(FontAwesomeIcons.solidCircle, color: Colors.grey);
     }
-
   }
 }
